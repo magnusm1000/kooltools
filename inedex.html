@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Image Stretch</h1>
+<p>Select an image to upload and stretch:</p>
+
+<input type="file" id="imageUpload" accept="image/*">
+
+<br>
+
+<canvas id="canvas"></canvas>
+
+<script>
+    const imageUpload = document.getElementById('imageUpload');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    imageUpload.addEventListener('change', function (e) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const img = new Image();
+
+            img.onload = function () {
+                // Resize canvas to 1.5 times the size of the image
+                canvas.width = img.width * 1.5;
+                canvas.height = img.height * 1.5;
+
+                // Draw the image on the canvas at the new size
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            }
+
+            img.src = event.target.result;
+        }
+
+        reader.readAsDataURL(e.target.files[0]);
+    });
+</script>
+
+</body>
+</html>
